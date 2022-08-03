@@ -34,7 +34,7 @@ provider:
 
 functions:
   list:
-    handler: handler.hello
+    handler: lambda/list.hello
     events:
       - http:
           path: /

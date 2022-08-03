@@ -30,8 +30,6 @@ exports.hello = async (event, context, callback) => {
             'Access-Control-Allow-Origin': '*'
         }
     }
-
-    //callback(null, scanResults);
     
     return(responseBody)
 };
