@@ -17,10 +17,22 @@ exports.hello = async (event, context, callback) => {
 
     do {
         items = await docClient.scan(params).promise();
+        console.log(items)
         items.Items.forEach((item) => scanResults.push(item));
         params.ExclusiveStartKey = items.LastEvaluatedKey;
     } while (typeof items.LastEvaluatedKey != "undefined");
 
-    callback(null, scanResults);
+    const responseBody = {
+        statusCode: 200,
+        body: JSON.stringify(scanResults),
+        headers:{
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
+    }
+
+    //callback(null, scanResults);
+    
+    return(responseBody)
 };
 

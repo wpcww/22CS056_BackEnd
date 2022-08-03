@@ -10,50 +10,34 @@ provider:
   runtime: nodejs14.x
   profile: default
   region: ap-east-1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:BatchGetItem
+            - dynamodb:GetItem
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:BatchWriteItem
+            - dynamodb:PutItem
+          Resource: arn:aws:dynamodb:ap-east-1:066529494542:table/testjoblist
+        - Effect: Allow
+          Action:
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+          Resource: arn:aws:logs:ap-east-1:066529494542:*
+        - Effect: Allow
+          Action:
+            - logs:CreateLogGroup
+          Resource: "*"
 
 functions:
-  readDDB:
+  list:
     handler: handler.hello
-    role: lambdaDdbAccess
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
 
-#@startyaml
-resources:
-  Resources:
-    lambdaDdbAccess:
-      Type: AWS::IAM::Role
-      Properties:
-        RoleName: LambdaDdbAccessRole
-        AssumeRolePolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Principal:
-                Service:
-                  - lambda.amazonaws.com
-              Action: sts:AssumeRole
-        Policies:
-          - PolicyName: LambdaDdbAccessPolicy
-            PolicyDocument:
-              Version: '2012-10-17'
-              Statement:
-                - Effect: Allow
-                  Action:
-                    - dynamodb:BatchGetItem
-                    - dynamodb:GetItem
-                    - dynamodb:Query
-                    - dynamodb:Scan
-                    - dynamodb:BatchWriteItem
-                    - dynamodb:PutItem
-                  Resource: arn:aws:dynamodb:ap-east-1:066529494542:table/testjoblist
-                - Effect: Allow
-                  Action:
-                    - logs:CreateLogStream
-                    - logs:PutLogEvents
-                  Resource: arn:aws:logs:ap-east-1:066529494542:*
-                - Effect: Allow
-                  Action:
-                    - logs:CreateLogGroup
-                  Resource: "*"
-
-
-#@endyaml
