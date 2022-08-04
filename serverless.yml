@@ -1,6 +1,7 @@
 service: reactApiLambda
 
 plugins:
+  #Required when running in UTC+8, with .env document
   - serverless-dotenv-plugin
 
 frameworkVersion: '3'
@@ -13,6 +14,7 @@ provider:
   iam:
     role:
       statements:
+          #Apply below policies to all to be built lambda functions
         - Effect: Allow
           Action:
             - dynamodb:BatchGetItem
@@ -21,7 +23,9 @@ provider:
             - dynamodb:Scan
             - dynamodb:BatchWriteItem
             - dynamodb:PutItem
+            - dynamodb:DeleteItem
           Resource: arn:aws:dynamodb:ap-east-1:066529494542:table/testjoblist
+          #CloudWatch policies for allowing log output
         - Effect: Allow
           Action:
             - logs:CreateLogStream
@@ -40,4 +44,17 @@ functions:
           path: /
           method: get
           cors: true
-
+  update:
+    handler: lambda/update.handler
+    events:
+      - http:
+          path: /update
+          method: post
+          cors: true
+  delete:
+    handler: lambda/delete.handler
+    events:
+      - http:
+          path: /delete
+          method: delete
+          cors: true
