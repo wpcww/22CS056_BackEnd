@@ -63,11 +63,12 @@ resources:
   Resources:
     DDBTable:
       Type: 'AWS::DynamoDB::Table'
-      DeletionPolicy: Retain
+      DeletionPolicy: Delete
       Properties:
         AttributeDefinitions:
           - AttributeName: Name
             AttributeType: S
+        #On Demand Billing
         BillingMode: PAY_PER_REQUEST
         KeySchema:
           - AttributeName: Name
