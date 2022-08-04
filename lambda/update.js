@@ -8,16 +8,18 @@ var docClient = new AWS.DynamoDB.DocumentClient({
 });
 const tableName = 'testjoblist';
 
-exports.handler = async (event, context, callback) => {
+exports.handler = async (event, context) => {
     let responseBody = "";
     let statusCode = 0;
+    let extract = JSON.parse(event['body'])
 
     const params = {
         TableName: tableName,
-        Item: event
+        Item: extract
     };
 
     try {
+        console.log(JSON.stringify(extract))
         const data = await docClient.put(params).promise();
         responseBody = JSON.stringify(data);
         statusCode = 201;
@@ -38,7 +40,6 @@ exports.handler = async (event, context, callback) => {
         "body": responseBody
     };
     
-    callback(null, response);
     context.succeed(response);
 
     return event;
