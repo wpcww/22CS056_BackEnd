@@ -58,3 +58,17 @@ functions:
           path: /delete
           method: delete
           cors: true
+
+resources:
+  Resources:
+    DDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: Name
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST
+        KeySchema:
+          - AttributeName: Name
+            KeyType: HASH
