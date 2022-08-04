@@ -14,11 +14,11 @@ exports.handler = async (event, context, callback) => {
 
     const params = {
         TableName: tableName,
-        Key:{Name: event['body']['Name']}
+        Key:{Name: JSON.parse(event['body']).Name}
     };
 
     try {
-        console.log(event['body']['Name'])
+        console.log("To be deleted: " + JSON.parse(event['body']).Name)
         const data = await docClient.delete(params).promise();
         responseBody = JSON.stringify(data);
         statusCode = 204;
