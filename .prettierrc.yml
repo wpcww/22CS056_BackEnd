@@ -65,9 +65,9 @@ printWidth: 80
 
 ## (Markdown) wrap prose over multiple lines
 proseWrap:
-      "preserve"
+  "preserve"
 
-      ## Change when properties in objects are quoted
+  ## Change when properties in objects are quoted
 quoteProps: "as-needed"
 
 ## Require a prettier configuration file to format. See [documentation for valid configuration files](https:##prettier.io/docs/en/configuration.html).
@@ -89,7 +89,14 @@ semi: true
 singleQuote: false
 
 ## Number of spaces it should use per tab
-tabWidth: 4
+tabWidth: 2
+overrides:
+  - files: "*.yml"
+    options:
+      tabWidth: 2
+  - files: "*.js"
+    options:
+      tabWidth: 4
 
 ## Controls the printing of trailing commas wherever possible. Valid options:
 ## - `none` - No trailing commas

@@ -4,7 +4,7 @@ plugins:
   #Required when running in UTC+8, with .env document
   - serverless-dotenv-plugin
 
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 provider:
   name: aws
@@ -14,7 +14,7 @@ provider:
   iam:
     role:
       statements:
-          #Apply below policies to all to be built lambda functions
+        #Apply below policies to all to be built lambda functions
         - Effect: Allow
           Action:
             - dynamodb:BatchGetItem
@@ -62,7 +62,7 @@ functions:
 resources:
   Resources:
     DDBTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Delete
       Properties:
         AttributeDefinitions:
