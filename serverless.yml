@@ -38,10 +38,10 @@ provider:
 
 functions:
   list:
-    handler: lambda/list.hello
+    handler: lambda/list.handler
     events:
       - http:
-          path: /
+          path: /list
           method: get
           cors: true
   update:
