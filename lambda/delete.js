@@ -6,7 +6,7 @@ var docClient = new AWS.DynamoDB.DocumentClient({
     convertResponseTypes: false,
     region: "ap-east-1",
 });
-const tableName = "testjoblist";
+const tableName = process.env.TABLE_NAME;
 
 exports.handler = async (event, context, callback) => {
     let responseBody = "";

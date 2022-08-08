@@ -24,7 +24,10 @@ provider:
             - dynamodb:BatchWriteItem
             - dynamodb:PutItem
             - dynamodb:DeleteItem
-          Resource: arn:aws:dynamodb:ap-east-1:066529494542:table/testjoblist
+          Resource: !Join
+            - ""
+            - - "arn:aws:dynamodb:ap-east-1:066529494542:table/"
+              - !Ref DDBTable
           #CloudWatch policies for allowing log output
         - Effect: Allow
           Action:
@@ -44,6 +47,8 @@ functions:
           path: /list
           method: get
           cors: true
+    environment:
+      TABLE_NAME: !Ref DDBTable
   update:
     handler: lambda/update.handler
     events:
@@ -51,6 +56,8 @@ functions:
           path: /update
           method: post
           cors: true
+    environment:
+      TABLE_NAME: !Ref DDBTable
   delete:
     handler: lambda/delete.handler
     events:
@@ -58,6 +65,8 @@ functions:
           path: /delete
           method: delete
           cors: true
+    environment:
+      TABLE_NAME: !Ref DDBTable
 
 resources:
   Resources:
