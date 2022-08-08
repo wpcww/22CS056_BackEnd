@@ -31,6 +31,11 @@ exports.handler = async (event, context, callback) => {
     const response = {
         statusCode: statusCode,
         body: responseBody,
+        headers: {
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+            "Access-Control-Allow-Origin": "*",
+        },
     };
 
     //console.log("Event input: " + JSON.stringify(event))
