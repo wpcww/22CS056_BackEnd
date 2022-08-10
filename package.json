@@ -1,0 +1,23 @@
+{
+  "name": "reacttestproject_backend",
+  "version": "1.0.0",
+  "description": "npm install -g serverless\r sls",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wpcww/reactTestProject_Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wpcww/reactTestProject_Backend/issues"
+  },
+  "homepage": "https://github.com/wpcww/reactTestProject_Backend#readme",
+  "dependencies": {
+    "serverless": "^3.21.0",
+    "serverless-dotenv-plugin": "^4.0.2"
+  }
+}
