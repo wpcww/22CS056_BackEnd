@@ -25,8 +25,8 @@ provider:
             - dynamodb:PutItem
             - dynamodb:DeleteItem
           Resource:
-            - { "Fn::GetAtt": ["vrec_ddb", "Arn"] }
-            - { "Fn::GetAtt": ["org_ddb", "Arn"] }
+            - { "Fn::GetAtt": ["vrecTable", "Arn"] }
+            - { "Fn::GetAtt": ["orgTable", "Arn"] }
           #CloudWatch policies for allowing log output
         - Effect: Allow
           Action:
@@ -57,7 +57,7 @@ functions:
               - X-Amzn-Trace-Id
               - Access-Control-Allow-Origin
     environment:
-      TABLE_NAME: !Ref vrec_ddb
+      TABLE_NAME: !Ref vrecTable
   authenticate:
     handler: lambda/authenticate.lambda_handler
     events:
@@ -76,7 +76,7 @@ functions:
               - X-Amzn-Trace-Id
               - Access-Control-Allow-Origin
     environment:
-      TABLE_NAME: !Ref vrec_ddb
+      TABLE_NAME: !Ref vrecTable
   retrieve:
     handler: lambda/retrieve.lambda_handler
     events:
@@ -95,11 +95,11 @@ functions:
               - X-Amzn-Trace-Id
               - Access-Control-Allow-Origin
     environment:
-      TABLE_NAME: !Ref org_ddb
+      TABLE_NAME: !Ref orgTable
 
 resources:
   Resources:
-    vrec_ddb:
+    vrecTable:
       Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Delete
       Properties:
@@ -111,7 +111,7 @@ resources:
         KeySchema:
           - AttributeName: Name
             KeyType: HASH
-    org_ddb:
+    orgTable:
       Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Delete
       Properties:
