@@ -1,8 +1,8 @@
 service: reactApiLambda
 
-plugins:
-  #Required when running in UTC+8, with .env document
-  - serverless-dotenv-plugin
+# plugins:
+#   #Required when running in UTC+8, with .env document
+#   - serverless-dotenv-plugin
 
 frameworkVersion: "3"
 
