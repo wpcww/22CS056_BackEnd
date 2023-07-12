@@ -8,9 +8,9 @@ frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: Python3.7
   profile: default
-  region: ap-east-1
+  region: us-east-1
   iam:
     role:
       statements:
@@ -24,53 +24,94 @@ provider:
             - dynamodb:BatchWriteItem
             - dynamodb:PutItem
             - dynamodb:DeleteItem
-          Resource: !Join
-            - ""
-            - - "arn:aws:dynamodb:ap-east-1:066529494542:table/"
-              - !Ref DDBTable
+          Resource:
+            - { "Fn::GetAtt": ["vrec_ddb", "Arn"] }
+            - { "Fn::GetAtt": ["org_ddb", "Arn"] }
           #CloudWatch policies for allowing log output
         - Effect: Allow
           Action:
             - logs:CreateLogStream
             - logs:PutLogEvents
-          Resource: arn:aws:logs:ap-east-1:066529494542:*
+          Resource: arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*
         - Effect: Allow
           Action:
             - logs:CreateLogGroup
           Resource: "*"
 
 functions:
-  list:
-    handler: lambda/list.handler
+  create:
+    handler: lambda/create.lambda_handler
     events:
       - http:
-          path: /list
-          method: get
-          cors: true
-    environment:
-      TABLE_NAME: !Ref DDBTable
-  update:
-    handler: lambda/update.handler
-    events:
-      - http:
-          path: /update
+          path: /create
           method: post
-          cors: true
+          cors:
+            origin: "*"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - X-Amzn-Trace-Id
+              - Access-Control-Allow-Origin
     environment:
-      TABLE_NAME: !Ref DDBTable
-  delete:
-    handler: lambda/delete.handler
+      TABLE_NAME: !Ref vrec_ddb
+  authenticate:
+    handler: lambda/authenticate.lambda_handler
     events:
       - http:
-          path: /delete
-          method: delete
-          cors: true
+          path: /authenticate
+          method: post
+          cors:
+            origin: "*"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - X-Amzn-Trace-Id
+              - Access-Control-Allow-Origin
     environment:
-      TABLE_NAME: !Ref DDBTable
+      TABLE_NAME: !Ref vrec_ddb
+  retrieve:
+    handler: lambda/retrieve.lambda_handler
+    events:
+      - http:
+          path: /
+          method: post
+          cors:
+            origin: "*"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - X-Amzn-Trace-Id
+              - Access-Control-Allow-Origin
+    environment:
+      TABLE_NAME: !Ref org_ddb
 
 resources:
   Resources:
-    DDBTable:
+    vrec_ddb:
+      Type: "AWS::DynamoDB::Table"
+      DeletionPolicy: Delete
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: Name
+            AttributeType: S
+        #On Demand Billing
+        BillingMode: PAY_PER_REQUEST
+        KeySchema:
+          - AttributeName: Name
+            KeyType: HASH
+    org_ddb:
       Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Delete
       Properties:
