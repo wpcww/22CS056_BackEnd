@@ -9,6 +9,9 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: python3.7
+  environment:
+    vrecTableENV: { "Ref": "vrecTable" }
+    orgTableENV: { "Ref": "orgTable" }
   profile: default
   region: us-east-1
   iam:
@@ -25,14 +28,14 @@ provider:
             - dynamodb:PutItem
             - dynamodb:DeleteItem
           Resource:
-            - { "Fn::GetAtt": ["vrecTable", "Arn"] }
-            - { "Fn::GetAtt": ["orgTable", "Arn"] }
+            - !GetAtt vrecTable.Arn
+            - !GetAtt orgTable.Arn
           #CloudWatch policies for allowing log output
         - Effect: Allow
           Action:
             - logs:CreateLogStream
             - logs:PutLogEvents
-          Resource: arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*
+          Resource: !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*
         - Effect: Allow
           Action:
             - logs:CreateLogGroup
@@ -81,7 +84,7 @@ functions:
     handler: lambda/retrieve.lambda_handler
     events:
       - http:
-          path: /
+          path: /retrieve
           method: post
           cors:
             origin: "*"
@@ -109,7 +112,7 @@ resources:
         #On Demand Billing
         BillingMode: PAY_PER_REQUEST
         KeySchema:
-          - AttributeName: Name
+          - AttributeName: id
             KeyType: HASH
     orgTable:
       Type: "AWS::DynamoDB::Table"
@@ -121,5 +124,5 @@ resources:
         #On Demand Billing
         BillingMode: PAY_PER_REQUEST
         KeySchema:
-          - AttributeName: Name
+          - AttributeName: org
             KeyType: HASH

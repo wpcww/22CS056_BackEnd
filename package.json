@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/wpcww/reactTestProject_Backend#readme",
   "dependencies": {
-    "serverless": "^3.21.0",
-    "serverless-dotenv-plugin": "^4.0.2"
+    "serverless": "^3.33.0",
+    "serverless-dotenv-plugin": "^4.0.2",
+    "sls": "^0.1.0"
   }
 }

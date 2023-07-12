@@ -3,7 +3,7 @@ name: ghactions
 on:
   push:
     branches:
-      - main
+      - void
 
 jobs:
   deploy:
