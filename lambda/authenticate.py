@@ -52,7 +52,8 @@ def lambda_handler(event, context):
             'body': json.dumps("Invalid input, please try again."),
             'headers': {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                "Access-Control-Allow-Methods": "POST,GET,OPTIONS, PUT, DELETE"
             },
         }
         return response
@@ -62,7 +63,8 @@ def lambda_handler(event, context):
             'body': json.dumps("Identity does not match vaccination record."),
             'headers': {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                "Access-Control-Allow-Methods": "POST,GET,OPTIONS, PUT, DELETE"
             },
         }
         return response

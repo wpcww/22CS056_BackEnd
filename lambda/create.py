@@ -40,7 +40,8 @@ def lambda_handler(event, context):
         'body': json.dumps(vid),
         'headers': {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Origin': '*',
+            "Access-Control-Allow-Methods": "POST,GET,OPTIONS, PUT, DELETE"
         },
     }
     return response

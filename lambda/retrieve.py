@@ -27,7 +27,8 @@ def lambda_handler(event, context):
             'body': json.dumps(orgKey),
             'headers': {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                "Access-Control-Allow-Methods": "POST,GET,OPTIONS, PUT, DELETE"
             },
         }
         return response
@@ -38,7 +39,8 @@ def lambda_handler(event, context):
             'body': json.dumps("Fail to retrieve organization information."),
             'headers': {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                "Access-Control-Allow-Methods": "POST,GET,OPTIONS, PUT, DELETE"
             },
         }
         return response
