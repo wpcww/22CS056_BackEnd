@@ -8,7 +8,7 @@ frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: Python3.7
+  runtime: python3.7
   profile: default
   region: us-east-1
   iam:
@@ -104,7 +104,7 @@ resources:
       DeletionPolicy: Delete
       Properties:
         AttributeDefinitions:
-          - AttributeName: Name
+          - AttributeName: id
             AttributeType: S
         #On Demand Billing
         BillingMode: PAY_PER_REQUEST
@@ -116,7 +116,7 @@ resources:
       DeletionPolicy: Delete
       Properties:
         AttributeDefinitions:
-          - AttributeName: Name
+          - AttributeName: org
             AttributeType: S
         #On Demand Billing
         BillingMode: PAY_PER_REQUEST
