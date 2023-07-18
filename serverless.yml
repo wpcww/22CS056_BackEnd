@@ -27,6 +27,7 @@ provider:
             - dynamodb:BatchWriteItem
             - dynamodb:PutItem
             - dynamodb:DeleteItem
+            - dynamodb:UpdateItem
           Resource:
             - !GetAtt vrecTable.Arn
             - !GetAtt orgTable.Arn
@@ -85,6 +86,44 @@ functions:
     events:
       - http:
           path: /retrieve
+          method: post
+          cors:
+            origin: "*"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - X-Amzn-Trace-Id
+              - Access-Control-Allow-Origin
+    environment:
+      TABLE_NAME: !Ref orgTable
+  organization:
+    handler: lambda/organization.lambda_handler
+    events:
+      - http:
+          path: /organization
+          method: get
+          cors:
+            origin: "*"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - X-Amzn-Trace-Id
+              - Access-Control-Allow-Origin
+    environment:
+      TABLE_NAME: !Ref orgTable
+  toggle:
+    handler: lambda/toggle.lambda_handler
+    events:
+      - http:
+          path: /toggle
           method: post
           cors:
             origin: "*"
